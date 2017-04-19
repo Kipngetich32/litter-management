@@ -1,0 +1,27 @@
+class Registration:
+    #registration of New shoppers using Pickle and a dictionary
+    import pickle
+    list1 ={}
+
+    while True:
+        def regi():
+            global list1
+            name= str (input("Enter New shopper:"))
+            ID=str (input("Enter shoppers' ID:"))
+            list1.update( {name:ID})
+            
+            
+            output= open ('save.pkl','wb')
+
+            pickle.dump (list1,output)
+            output.close()
+
+            inputFile= open('save.pkl','rb')
+
+            list1=pickle.load(inputFile)
+            inputFile.close()
+
+            print ("List of shoppers :"+str(list1))
+            Exit =input ("Press Enter to continue or Q to exit :")
+            if Exit== "Q":
+            print ("First part ok"
