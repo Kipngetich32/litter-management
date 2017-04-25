@@ -1,27 +1,30 @@
-class Registration:
-    #registration of New shoppers using Pickle and a dictionary
-    import pickle
-    list1 ={}
+import sqlite3
+import time
+import datetime
+import random
 
-    while True:
-        def regi():
-            global list1
-            name= str (input("Enter New shopper:"))
-            ID=str (input("Enter shoppers' ID:"))
-            list1.update( {name:ID})
-            
-            
-            output= open ('save.pkl','wb')
+conn=sqlite3.connect('Shoppers.db')
+c= conn.cursor()
 
-            pickle.dump (list1,output)
-            output.close()
+    
+def create_table():
+    c.execute('CREATE TABLE IF NOT EXISTS Adding_Shoppers (unix REAL ,datestamp TEXT, Name TEXT, National_id REAL,litter TEXT)')
 
-            inputFile= open('save.pkl','rb')
+def data_entry():
+    Name= input("Enter Shopper's Name:")
+    National_id= input("Enter Shopper's National ID No:")
+    Litter_random= random.randint(1000000,10000000)
+    litter= "RF"+str(Litter_random)
+    unix=time.time()
+    date= str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
+    c.execute("INSERT INTO Adding_Shoppers (unix,datestamp,Name,National_id,litter)VALUES (?,?,?,?,?)",
+              (unix,date,Name,National_id,litter))
+    conn.commit()
 
-            list1=pickle.load(inputFile)
-            inputFile.close()
+create_table()
 
-            print ("List of shoppers :"+str(list1))
-            Exit =input ("Press Enter to continue or Q to exit :")
-            if Exit== "Q":
-            print ("First part ok"
+for i in range(10):
+    data_entry()
+    time.sleep(1)
+c.close()
+conn.close()    
